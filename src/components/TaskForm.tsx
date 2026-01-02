@@ -68,8 +68,7 @@ export default function TaskForm({ open, onClose, onSubmit, existingTitles, init
     !!status;
 
   const handleSubmit = () => {
-    const safeTime = typeof timeTaken === 'number' && timeTaken > 0 ? timeTaken : 1; // auto-correct
-    // For editing, include createdAt from initial. For new tasks, addTask will set createdAt.
+    const safeTime = typeof timeTaken === 'number' && timeTaken > 0 ? timeTaken : 1;
     const basePayload = {
       title: title.trim(),
       revenue: typeof revenue === 'number' ? revenue : 0,
@@ -81,7 +80,7 @@ export default function TaskForm({ open, onClose, onSubmit, existingTitles, init
     
     const payload: Omit<Task, 'id'> & { id?: string } = initial
       ? { ...basePayload, id: initial.id, createdAt: initial.createdAt }
-      : { ...basePayload, createdAt: new Date().toISOString() }; // Temporary, will be replaced by addTask
+      : { ...basePayload, createdAt: new Date().toISOString() };
     
     onSubmit(payload);
     onClose();

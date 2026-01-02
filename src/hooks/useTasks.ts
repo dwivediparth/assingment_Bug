@@ -9,7 +9,6 @@ import {
   withDerived,
   sortTasks as sortDerived,
 } from '@/utils/logic';
-// Local storage removed per request; keep everything in memory
 import { generateSalesTasks } from '@/utils/seed';
 
 interface UseTasksState {
@@ -61,9 +60,7 @@ export function useTasks(): UseTasksState {
     });
   }
 
-  // Initial load: public JSON -> fallback generated dummy
   useEffect(() => {
-    // Prevent double fetch in React StrictMode
     if (fetchedRef.current) return;
     
     let isMounted = true;
@@ -111,7 +108,7 @@ export function useTasks(): UseTasksState {
   const addTask = useCallback((task: Omit<Task, 'id'> & { id?: string }) => {
     setTasks(prev => {
       const id = task.id ?? crypto.randomUUID();
-      const timeTaken = task.timeTaken <= 0 ? 1 : task.timeTaken; // auto-correct
+      const timeTaken = task.timeTaken <= 0 ? 1 : task.timeTaken;
       const createdAt = new Date().toISOString();
       const status = task.status;
       const completedAt = status === 'Done' ? createdAt : undefined;
@@ -129,7 +126,6 @@ export function useTasks(): UseTasksState {
         }
         return merged;
       });
-      // Ensure timeTaken remains > 0
       return next.map(t => (t.id === id && (patch.timeTaken ?? t.timeTaken) <= 0 ? { ...t, timeTaken: 1 } : t));
     });
   }, []);

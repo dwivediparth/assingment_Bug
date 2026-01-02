@@ -1,20 +1,16 @@
 import { DerivedTask, Task } from '@/types';
 
 export function computeROI(revenue: number, timeTaken: number): number | null {
-  // Validate inputs: ensure they are valid numbers
   if (typeof revenue !== 'number' || typeof timeTaken !== 'number') {
     return null;
   }
   if (!Number.isFinite(revenue) || !Number.isFinite(timeTaken)) {
     return null;
   }
-  // Handle division by zero: return null if timeTaken is 0 or negative
   if (timeTaken <= 0) {
     return null;
   }
-  // Calculate ROI: Revenue / Time Taken
   const roi = revenue / timeTaken;
-  // Return null if result is not finite (shouldn't happen with valid inputs, but safety check)
   return Number.isFinite(roi) ? roi : null;
 }
 
@@ -43,7 +39,6 @@ export function sortTasks(tasks: ReadonlyArray<DerivedTask>): DerivedTask[] {
     const bROI = b.roi ?? -Infinity;
     if (bROI !== aROI) return bROI - aROI;
     if (b.priorityWeight !== a.priorityWeight) return b.priorityWeight - a.priorityWeight;
-    // Stable tie-breaker: alphabetical title sorting for consistent ordering
     return a.title.localeCompare(b.title);
   });
 }
@@ -82,7 +77,6 @@ export function computePerformanceGrade(avgROI: number): 'Excellent' | 'Good' | 
   return 'Needs Improvement';
 }
 
-// ---- Advanced analytics ----
 export type FunnelCounts = { todo: number; inProgress: number; done: number; conversionTodoToInProgress: number; conversionInProgressToDone: number };
 export function computeFunnel(tasks: ReadonlyArray<Task>): FunnelCounts {
   const todo = tasks.filter(t => t.status === 'Todo').length;

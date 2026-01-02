@@ -64,8 +64,8 @@ export function generateSalesTasks(count: number): Task[] {
     const id = `t-${2001 + i}`;
     const priority = priorities[i % priorities.length];
     const status = statuses[(i + 1) % statuses.length];
-    const timeTaken = 1 + ((i * 3) % 10); // 1..10 hours
-    const revenueBase = 150 + (i % 12) * 75; // base pattern
+    const timeTaken = 1 + ((i * 3) % 10);
+    const revenueBase = 150 + (i % 12) * 75;
     const multiplier = priority === 'High' ? 8 : priority === 'Medium' ? 4 : 2;
     const revenue = Math.round((revenueBase + (i % 5) * 40) * multiplier);
     const createdAt = new Date(now - (i * 36 + (i % 7) * 12) * 60 * 60 * 1000).toISOString();
